@@ -113,7 +113,7 @@ export -f wp-setup-plugin
 # Helpers
 function browse-url () {
   ENDPOINT=${1:-""}
-  PORT=${2:-"8080"}
+  PORT=${2:-"8001"}
   URL=$(gp url $PORT | sed -e s/https:\\/\\/// | sed -e s/\\///)
   gp preview "${URL}${ENDPOINT}"
 }
