@@ -29,7 +29,9 @@ function wp-setup () {
   # move the workspace temporarily
   mkdir $HOME/workspace
   mv ${GITPOD_REPO_ROOT}/* $HOME/workspace/
-  
+  mkdir -p ${GITPOD_REPO_ROOT}/my-project
+  mv $HOME/workspace/* ${GITPOD_REPO_ROOT}/my-project
+
   # create a debugger launch.json
   mkdir -p ${GITPOD_REPO_ROOT}/.theia
   mv $HOME/gitpod-wordpress/conf/launch.json ${GITPOD_REPO_ROOT}/.theia/launch.json
@@ -68,19 +70,20 @@ function wp-setup () {
   # put the project files in the correct place
   echo 'Creating project files ...'
   PROJECT_PATH=${GITPOD_REPO_ROOT}/${APACHE_DOCROOT}/wp-content/$1/${REPO_NAME}
-  mkdir -p $PROJECT_PATH
-  mv $HOME/workspace/* ${PROJECT_PATH}
-  cd $DESTINATION
+  # mkdir -p $PROJECT_PATH
+  # mv $HOME/workspace/* ${PROJECT_PATH}
+  ln -s ${GITPOD_REPO_ROOT}/my-project $PROJECT_PATH
+  cd ${GITPOD_REPO_ROOT}/my-project
 
   # install project dependencies
   if [ -f composer.json ]; then
     echo 'Installing Composer packages ...'
-    composer update 2> /dev/null
+    composer install 2> /dev/null
   fi
   
   if [ -f package.json ]; then
     echo 'Installing NPM packages ...'
-    npm i 2> /dev/null
+    yarn install 2> /dev/null
   fi
 
   if [ -f ${PROJECT_PATH}/.init.sh ]; then
