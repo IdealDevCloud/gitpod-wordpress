@@ -1,6 +1,6 @@
 # WordPress Setup Script
 export REPO_NAME=$(basename $GITPOD_REPO_ROOT)
-export WP_LOCALE = 'pl_PL'
+export WP_LOCALE="pl_PL"
 
 function wp-init-database () {
   # user     = wordpress
