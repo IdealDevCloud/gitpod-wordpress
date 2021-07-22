@@ -1,5 +1,6 @@
 # WordPress Setup Script
 export REPO_NAME=$(basename $GITPOD_REPO_ROOT)
+export WP_LOCALE = 'pl_PL'
 
 function wp-init-database () {
   # user     = wordpress
@@ -46,7 +47,7 @@ function wp-setup () {
   cd ${GITPOD_REPO_ROOT}/${APACHE_DOCROOT}/
   
   echo 'Downloading WordPress ...'
-  wp core download --path="${GITPOD_REPO_ROOT}/${APACHE_DOCROOT}/"
+  wp core download --path="${GITPOD_REPO_ROOT}/${APACHE_DOCROOT}/" --locale=${WP_LOCALE}
   
   echo 'Installing WordPress ...'
   cp $HOME/gitpod-wordpress/conf/wp-config.php ${GITPOD_REPO_ROOT}/${APACHE_DOCROOT}/wp-config.php
