@@ -83,6 +83,7 @@ function wp-setup () {
   if [ -f package.json ]; then
     echo 'Installing NPM packages ...'
     yarn install 2> /dev/null
+    yarn build 2> /dev/null
   fi
 
   if [ -f ${PROJECT_PATH}/.init.sh ]; then
