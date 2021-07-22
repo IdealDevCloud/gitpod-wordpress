@@ -1,7 +1,5 @@
-
 # WordPress Setup Script
 export REPO_NAME=$(basename $GITPOD_REPO_ROOT)
-export WP_LOCALE=pl_PL
 
 function wp-init-database () {
   # user     = wordpress
@@ -30,7 +28,9 @@ function wp-setup () {
   # move the workspace temporarily
   mkdir $HOME/workspace
   mv ${GITPOD_REPO_ROOT}/* $HOME/workspace/
-  
+  mkdir -p ${GITPOD_REPO_ROOT}/my-project
+  mv $HOME/workspace/* ${GITPOD_REPO_ROOT}/my-project
+
   # create a debugger launch.json
   mkdir -p ${GITPOD_REPO_ROOT}/.theia
   mv $HOME/gitpod-wordpress/conf/launch.json ${GITPOD_REPO_ROOT}/.theia/launch.json
@@ -46,12 +46,12 @@ function wp-setup () {
   cd ${GITPOD_REPO_ROOT}/${APACHE_DOCROOT}/
   
   echo 'Downloading WordPress ...'
-  wp core download --path="${GITPOD_REPO_ROOT}/${APACHE_DOCROOT}/" --locale=${WP_LOCALE}
+  wp core download --path="${GITPOD_REPO_ROOT}/${APACHE_DOCROOT}/"
   
   echo 'Installing WordPress ...'
   cp $HOME/gitpod-wordpress/conf/wp-config.php ${GITPOD_REPO_ROOT}/${APACHE_DOCROOT}/wp-config.php
   wp core install \
-    --url="$(gp url 8001 | sed -e s/https:\\/\\/// | sed -e s/\\///)" \
+    --url="$(gp url 8080 | sed -e s/https:\\/\\/// | sed -e s/\\///)" \
     --title="WordPress" \
     --admin_user="admin" \
     --admin_password="password" \
@@ -69,19 +69,20 @@ function wp-setup () {
   # put the project files in the correct place
   echo 'Creating project files ...'
   PROJECT_PATH=${GITPOD_REPO_ROOT}/${APACHE_DOCROOT}/wp-content/$1/${REPO_NAME}
-  mkdir -p $PROJECT_PATH
-  mv $HOME/workspace/* ${PROJECT_PATH}
-  cd $DESTINATION
+  # mkdir -p $PROJECT_PATH
+  # mv $HOME/workspace/* ${PROJECT_PATH}
+  ln -s ${GITPOD_REPO_ROOT}/my-project $PROJECT_PATH
+  cd ${GITPOD_REPO_ROOT}/my-project
 
   # install project dependencies
   if [ -f composer.json ]; then
     echo 'Installing Composer packages ...'
-    composer update 2> /dev/null
+    composer install 2> /dev/null
   fi
   
   if [ -f package.json ]; then
     echo 'Installing NPM packages ...'
-    npm i 2> /dev/null
+    yarn install 2> /dev/null
   fi
 
   if [ -f ${PROJECT_PATH}/.init.sh ]; then
@@ -114,7 +115,7 @@ export -f wp-setup-plugin
 # Helpers
 function browse-url () {
   ENDPOINT=${1:-""}
-  PORT=${2:-"8001"}
+  PORT=${2:-"8080"}
   URL=$(gp url $PORT | sed -e s/https:\\/\\/// | sed -e s/\\///)
   gp preview "${URL}${ENDPOINT}"
 }
