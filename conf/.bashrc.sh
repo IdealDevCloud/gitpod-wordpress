@@ -47,7 +47,7 @@ function wp-setup () {
   cd ${GITPOD_REPO_ROOT}/${APACHE_DOCROOT}/
   
   echo 'Downloading WordPress ...'
-  wp core download --path="${GITPOD_REPO_ROOT}/${APACHE_DOCROOT}/" --locale=${WP_LOCALE}
+  wp core download --path="${GITPOD_REPO_ROOT}/${APACHE_DOCROOT}/" --locale=$WP_LOCALE
   
   echo 'Installing WordPress ...'
   cp $HOME/gitpod-wordpress/conf/wp-config.php ${GITPOD_REPO_ROOT}/${APACHE_DOCROOT}/wp-config.php
