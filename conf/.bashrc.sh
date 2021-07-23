@@ -6,8 +6,8 @@ function wp-init-database () {
   # user     = wordpress
   # password = wordpress
   # database = wordpress
-  mysql -e "CREATE DATABASE wordpress /*\!40100 DEFAULT CHARACTER SET utf8 */;"
-  mysql -e "CREATE USER wordpress@localhost IDENTIFIED BY 'wordpress';"
+  mysql -e "CREATE DATABASE [IF NOT EXISTS] wordpress /*\!40100 DEFAULT CHARACTER SET utf8 */;"
+  mysql -e "CREATE USER [IF NOT EXISTS] wordpress@localhost IDENTIFIED BY 'wordpress';"
   mysql -e "GRANT ALL PRIVILEGES ON wordpress.* TO 'wordpress'@'localhost';"
   mysql -e "FLUSH PRIVILEGES;"
 }
