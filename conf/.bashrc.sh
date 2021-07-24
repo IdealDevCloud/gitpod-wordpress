@@ -37,8 +37,8 @@ function wp-setup () {
   mv $HOME/gitpod-wordpress/conf/launch.json ${GITPOD_REPO_ROOT}/.theia/launch.json
   
   # create a database for this WordPress
-  echo 'Creating MySQL user and database ...'
-  wp-init-database 1> /dev/null
+  # echo 'Creating MySQL user and database ...'
+  # wp-init-database 1> /dev/null
   
   # install WordPress
   
