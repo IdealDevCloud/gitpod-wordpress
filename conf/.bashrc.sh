@@ -52,7 +52,7 @@ function wp-setup () {
   echo 'Installing WordPress ...'
   cp $HOME/gitpod-wordpress/conf/wp-config.php ${GITPOD_REPO_ROOT}/${APACHE_DOCROOT}/wp-config.php
   wp core install \
-    --url="$(gp url 8081 | sed -e s/https:\\/\\/// | sed -e s/\\///)" \
+    --url="$(gp url 8001 | sed -e s/https:\\/\\/// | sed -e s/\\///)" \
     --title="WordPress" \
     --admin_user="admin" \
     --admin_password="password" \
@@ -117,7 +117,7 @@ export -f wp-setup-plugin
 # Helpers
 function browse-url () {
   ENDPOINT=${1:-""}
-  PORT=${2:-"8081"}
+  PORT=${2:-"8001"}
   URL=$(gp url $PORT | sed -e s/https:\\/\\/// | sed -e s/\\///)
   gp preview "${URL}${ENDPOINT}"
 }
