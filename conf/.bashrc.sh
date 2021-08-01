@@ -72,7 +72,9 @@ function wp-setup () {
   PROJECT_PATH=${GITPOD_REPO_ROOT}/${APACHE_DOCROOT}/wp-content/$1/${REPO_NAME}
   # mkdir -p $PROJECT_PATH
   # mv $HOME/workspace/* ${PROJECT_PATH}
-  ln -s ${GITPOD_REPO_ROOT}/my-project $PROJECT_PATH
+  # ln -s ${GITPOD_REPO_ROOT}/my-project $PROJECT_PATH
+  mv ${GITPOD_REPO_ROOT}/my-project $PROJECT_PATH
+  ln -s $PROJECT_PATH ${GITPOD_REPO_ROOT}/my-project
   cd ${GITPOD_REPO_ROOT}/my-project
 
   # install project dependencies
